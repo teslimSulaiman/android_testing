@@ -21,10 +21,11 @@ import java.io.IOException;
  * Created by USER on 5/14/2017.
  */
 
-class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+ public class  EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
     private static MyApi myApiService = null;
     private Context context;
     private ProgressBar progressBar ;
+
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
@@ -61,16 +62,12 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
 
     @Override
     protected void onPreExecute() {
-        //progressBar.findViewById(R.id.loading_indicator);
 
         progressBar.setVisibility(View.VISIBLE);
-
-
     }
 
     @Override
     protected void onPostExecute(String result) {
-        //Toast.makeText(context, result, Toast.LENGTH_LONG).show();
         progressBar.setVisibility(View.GONE);
         Intent myIntent = new Intent(context.getApplicationContext(), DisplayActivity.class);
         myIntent.putExtra("joke", result);

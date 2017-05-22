@@ -1,4 +1,4 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.free;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,19 +14,18 @@ import android.widget.Toast;
 
 import com.example.Joke;
 import com.example.myandroidlib.DisplayActivity;
+import com.udacity.gradle.builditbigger.EndpointsAsyncTask;
+import com.udacity.gradle.builditbigger.R;
 
 
 public class MainActivity extends AppCompatActivity {
 
-     ProgressBar progressBar ;
-
-
+    ProgressBar progressBar ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-       // new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
+            setContentView(R.layout.activity_main);
         progressBar=(ProgressBar)findViewById(R.id.loading_indicator);
         progressBar.setVisibility(View.GONE);
     }
@@ -54,26 +53,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke(View view) {
-        Joke joke = new Joke();
-        String jokeMessage = joke.getJoke();
-        Toast.makeText(this, jokeMessage, Toast.LENGTH_SHORT).show();
-    }
-
     public void launchLibraryActivity(View view) {
-     //   EndpointsAsyncTask task = new EndpointsAsyncTask();
-      //  task.execute(new Pair<Context, String>(this,""));
-        //progressBar.setVisibility(View.VISIBLE);
         EndpointsAsyncTask task = new EndpointsAsyncTask();
         task.setProgressBar(progressBar);
         task.execute(new Pair<Context, String>(this, "Manfred"));
-     //   new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
-       // progressBar.setVisibility(View.GONE);
-//        Joke joke = new Joke();
-//        String jokeMessage = joke.getJoke();
-//        Intent myIntent = new Intent(this, DisplayActivity.class);
-//        myIntent.putExtra("joke", jokeMessage);
-//        startActivity(myIntent);
+
     }
 
 
