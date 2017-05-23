@@ -15,10 +15,11 @@ import android.widget.Toast;
 import com.example.Joke;
 import com.example.myandroidlib.DisplayActivity;
 import com.udacity.gradle.builditbigger.EndpointsAsyncTask;
+import com.udacity.gradle.builditbigger.OnTaskCompleted;
 import com.udacity.gradle.builditbigger.R;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnTaskCompleted {
 
     ProgressBar progressBar ;
 
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         progressBar=(ProgressBar)findViewById(R.id.loading_indicator);
         progressBar.setVisibility(View.GONE);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,13 +52,18 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
     public void launchLibraryActivity(View view) {
-        EndpointsAsyncTask task = new EndpointsAsyncTask();
-        task.setProgressBar(progressBar);
+        EndpointsAsyncTask task = new EndpointsAsyncTask(this);
+        progressBar.setVisibility(View.VISIBLE);
         task.execute(new Pair<Context, String>(this, "Manfred"));
 
     }
 
-
+    @Override
+    public void onTaskCompleted(String result) {
+        progressBar.setVisibility(View.GONE);
+        Intent myIntent = new Intent(this, DisplayActivity.class);
+        myIntent.putExtra("joke", result);
+        startActivity(myIntent);
+    }
 }

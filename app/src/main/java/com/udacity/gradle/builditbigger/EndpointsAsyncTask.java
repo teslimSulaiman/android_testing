@@ -25,7 +25,11 @@ import java.io.IOException;
     private static MyApi myApiService = null;
     private Context context;
     private ProgressBar progressBar ;
+    private OnTaskCompleted listener;
 
+    public EndpointsAsyncTask(OnTaskCompleted listener){
+        this.listener=listener;
+    }
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
@@ -56,21 +60,9 @@ import java.io.IOException;
             return e.getMessage();
         }
     }
-    public void setProgressBar(ProgressBar bar) {
-        this.progressBar = bar;
-    }
-
-    @Override
-    protected void onPreExecute() {
-
-        progressBar.setVisibility(View.VISIBLE);
-    }
 
     @Override
     protected void onPostExecute(String result) {
-        progressBar.setVisibility(View.GONE);
-        Intent myIntent = new Intent(context.getApplicationContext(), DisplayActivity.class);
-        myIntent.putExtra("joke", result);
-        context.startActivity(myIntent);
+        listener.onTaskCompleted(result);
     }
 }

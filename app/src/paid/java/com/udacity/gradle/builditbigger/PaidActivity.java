@@ -1,6 +1,7 @@
 package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
@@ -11,12 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.Joke;
+import com.example.myandroidlib.DisplayActivity;
 
 /**
  * Created by USER on 5/16/2017.
  */
 
-public class PaidActivity  extends AppCompatActivity {
+public class PaidActivity  extends AppCompatActivity implements OnTaskCompleted{
 
     ProgressBar progressBar ;
 
@@ -63,10 +65,19 @@ public class PaidActivity  extends AppCompatActivity {
     }
 
     public void launchLibraryActivity(View view) {
-        EndpointsAsyncTask task = new EndpointsAsyncTask();
-        task.setProgressBar(progressBar);
+        EndpointsAsyncTask task = new EndpointsAsyncTask(this);
+        progressBar.setVisibility(View.VISIBLE);
         task.execute(new Pair<Context, String>(this, "Manfred"));
 
+    }
+
+
+    @Override
+    public void onTaskCompleted(String result) {
+        progressBar.setVisibility(View.GONE);
+        Intent myIntent = new Intent(this, DisplayActivity.class);
+        myIntent.putExtra("joke", result);
+        startActivity(myIntent);
     }
 
 
